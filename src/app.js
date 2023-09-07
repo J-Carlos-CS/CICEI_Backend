@@ -10,6 +10,7 @@ import User from "./routes/user.routes.js";
 import Categoria from "./routes/categoria.routes.js";
 import Proyecto from "./routes/proyecto.routes.js";
 import Reactivo from "./routes/reactivo.routes.js";
+import Manual from "./routes/manual.routes.js";
 
 const app = express();
 const ROUTE_URL = "/laboratorio/api";
@@ -17,11 +18,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Middlewares
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+//routes
 app.use(ROUTE_URL + "/user", User);
 app.use(ROUTE_URL + "/categoria", Categoria);
 app.use(ROUTE_URL + "/proyecto", Proyecto);
 app.use(ROUTE_URL + "/reactivo", Reactivo);
+app.use(ROUTE_URL + "/manual", Manual);
 
 export default app;

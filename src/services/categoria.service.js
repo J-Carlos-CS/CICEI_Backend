@@ -27,7 +27,6 @@ export const CategoriaService = {
     return categoriaInDB;
   },
   putCategoria: async (id, categoria) => {
-    console.log(categoria);
     try {
       let categoriaInDB = await Categorias.findOne({
         where: { id },
