@@ -11,6 +11,7 @@ import Categoria from "./routes/categoria.routes.js";
 import Proyecto from "./routes/proyecto.routes.js";
 import Reactivo from "./routes/reactivo.routes.js";
 import Manual from "./routes/manual.routes.js";
+import Equipo from "./routes/equipos.routes.js";
 
 const app = express();
 const ROUTE_URL = "/laboratorio/api";
@@ -27,5 +28,6 @@ app.use(ROUTE_URL + "/categoria", Categoria);
 app.use(ROUTE_URL + "/proyecto", Proyecto);
 app.use(ROUTE_URL + "/reactivo", Reactivo);
 app.use(ROUTE_URL + "/manual", Manual);
+app.use(ROUTE_URL + "/equipo", Equipo);
 
 export default app;
