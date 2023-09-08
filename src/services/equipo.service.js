@@ -7,17 +7,7 @@ import { Proyectos } from "../models/proyectos.model.js";
 
 export const EquipoService = {
   registerEquipo: async (equipo) => {
-    const {
-      nombre,
-      categoriaId,
-      proyectoId,
-      cantidad,
-      unidades,
-      estado,
-      marca,
-      modelo,
-      fecha_adquisicion,
-    } = equipo;
+    const { nombre, categoriaId, proyectoId, cantidad, unidad, estado, marca, modelo, fecha_adquisicion } = equipo;
     try {
       let newEquipos = await Equipos.create(
         {
@@ -25,18 +15,11 @@ export const EquipoService = {
           categoriaId,
           proyectoId,
           cantidad,
-          unidades,
+          unidad,
           estado,
         },
         {
-          fields: [
-            "nombre",
-            "categoriaId",
-            "proyectoId",
-            "cantidad",
-            "unidades",
-            "estado",
-          ],
+          fields: ["nombre", "categoriaId", "proyectoId", "cantidad", "unidad", "estado"],
         }
       );
       if (newEquipos != undefined) {
@@ -84,7 +67,7 @@ export const EquipoService = {
     }
   },
   getAllEquipo: async () => {
-    const allEquipos = await Equipos.findAndCountAll({
+    const allEquipos = await Equipos.findAll({
       where: { estado: true },
       include: [
         {
@@ -121,9 +104,9 @@ export const EquipoService = {
       }
       equipo.nombre = putEquipo.nombre;
       equipo.cantidad = putEquipo.cantidad;
-      equipo.unidades = putEquipo.unidades;
+      equipo.unidad = putEquipo.unidad;
       equipo.estado = putEquipo.estado;
-      equipo.proyectoId = proyectoId;
+      equipo.proyectoId = putEquipo.proyectoId;
       equipo.categoriaId = putEquipo.categoriaId;
       return await equipo.save();
     } catch (error) {
