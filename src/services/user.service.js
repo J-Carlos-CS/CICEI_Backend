@@ -51,4 +51,11 @@ export const UserService = {
     });
     return user;
   },
+  getOneUser: async (id) => {
+    const user = await User.findOne({
+      where: { id: id },
+      attributes: { include: "password" },
+    });
+    return user;
+  },
 };

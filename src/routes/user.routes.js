@@ -11,18 +11,33 @@ import { authenticateToken } from "../../auth/auth.js";
 import { UserService } from "../services/user.service.js";
 
 const router = express.Router();
-router.get("/", authenticateToken, async function (req, res) {
+
+router.get("/", async function (req, res) {
   try {
+  
     const response = await UserService.getAllUsers();
+
     res.status(200).send(MessageSuccess(response));
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }
 });
+router.get("/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    console.log(id)
+    const response = await UserService.getOneUser(id);
 
+    res.status(200).send(response);
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 router.post("/", async function (req, res) {
   try {
+    
     const user = req.body;
+    console.log(user)
     user.email = user.email.toLowerCase();
     const response = await UserService.registerUser(user);
     res.status(200).send(MessageSuccess(response));

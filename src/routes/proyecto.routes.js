@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", async function (req, res) {
   try {
     const response = await ProyectoService.getAllProyecto();
-    res.status(200).send(MessageSuccess(response));
+    res.status(200).send(response);
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }

@@ -24,10 +24,10 @@ app.use(cors());
 
 //routes
 app.use(ROUTE_URL + "/user", User);
-app.use(ROUTE_URL + "/categoria", Categoria);
-app.use(ROUTE_URL + "/proyecto", Proyecto);
-app.use(ROUTE_URL + "/reactivo", Reactivo);
-app.use(ROUTE_URL + "/manual", Manual);
-app.use(ROUTE_URL + "/equipo", Equipo);
+app.use(ROUTE_URL + "/categorias", Categoria);
+app.use(ROUTE_URL + "/proyectos", Proyecto);
+app.use(ROUTE_URL + "/reactivos", Reactivo);
+app.use(ROUTE_URL + "/manuales", Manual);
+app.use(ROUTE_URL + "/equipos", Equipo);
 
 export default app;
