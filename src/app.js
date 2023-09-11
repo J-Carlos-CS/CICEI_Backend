@@ -29,5 +29,4 @@ app.use(ROUTE_URL + "/proyectos", Proyecto);
 app.use(ROUTE_URL + "/reactivos", Reactivo);
 app.use(ROUTE_URL + "/manuales", Manual);
 app.use(ROUTE_URL + "/equipos", Equipo);
-
 export default app;

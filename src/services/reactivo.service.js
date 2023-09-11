@@ -4,7 +4,7 @@ import { Reactivos } from "../models/reactivo.model.js";
 
 export const ReactivoService = {
   getAllReactivo: async () => {
-    const allReactivos = await Reactivos.findAndCountAll({
+    const allReactivos = await Reactivos.findAll({
       where: { estado: true },
       include: [
         {
