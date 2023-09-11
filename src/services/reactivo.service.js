@@ -1,6 +1,7 @@
 import { Categorias } from "../models/categoria.model.js";
 import { Proyectos } from "../models/proyectos.model.js";
 import { Reactivos } from "../models/reactivo.model.js";
+import { CategoriaService } from "../services/categoria.service.js";
 
 export const ReactivoService = {
   getAllReactivo: async () => {
