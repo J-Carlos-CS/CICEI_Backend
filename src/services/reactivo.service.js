@@ -1,7 +1,6 @@
 import { Categorias } from "../models/categoria.model.js";
 import { Proyectos } from "../models/proyectos.model.js";
 import { Reactivos } from "../models/reactivo.model.js";
-import { CategoriaService } from "../services/categoria.service.js";
 
 export const ReactivoService = {
   getAllReactivo: async () => {
@@ -20,7 +19,13 @@ export const ReactivoService = {
   },
   registerReactivo: async (reactivo) => {
     try {
-      if (reactivo.nombre && reactivo.cantidad && reactivo.unidades && reactivo.fecha_vencimiento && reactivo.marca) {
+      if (
+        reactivo.nombre &&
+        reactivo.cantidad &&
+        reactivo.unidades &&
+        reactivo.fecha_vencimiento &&
+        reactivo.marca
+      ) {
         reactivo.estado = true;
         const reactivoInDB = await Reactivos.create(reactivo);
         return reactivoInDB;

@@ -7,7 +7,17 @@ import { Proyectos } from "../models/proyectos.model.js";
 
 export const EquipoService = {
   registerEquipo: async (equipo) => {
-    const { nombre, categoriaId, proyectoId, cantidad, unidad, estado, marca, modelo, fecha_adquisicion } = equipo;
+    const {
+      nombre,
+      categoriaId,
+      proyectoId,
+      cantidad,
+      unidad,
+      estado,
+      marca,
+      modelo,
+      fecha_adquisicion,
+    } = equipo;
     try {
       let newEquipos = await Equipos.create(
         {
@@ -19,7 +29,14 @@ export const EquipoService = {
           estado,
         },
         {
-          fields: ["nombre", "categoriaId", "proyectoId", "cantidad", "unidad", "estado"],
+          fields: [
+            "nombre",
+            "categoriaId",
+            "proyectoId",
+            "cantidad",
+            "unidad",
+            "estado",
+          ],
         }
       );
       if (newEquipos != undefined) {
