@@ -13,6 +13,9 @@ export const DetalleEquiposervice = {
         {
           model: Fechas_adquisiciones,
         },
+        {
+          model: Equipos,
+        },
       ],
     });
     return allEquipos;
@@ -23,6 +26,9 @@ export const DetalleEquiposervice = {
       include: [
         {
           model: Fechas_adquisiciones,
+        },
+        {
+          model: Equipos,
         },
       ],
     });

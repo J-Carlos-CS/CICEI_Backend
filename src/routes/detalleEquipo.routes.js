@@ -9,9 +9,7 @@ const router = express.Router();
 router.get("/:id", async function (req, res) {
   try {
     const detalleEquipoId = req.params.id;
-    const response = await DetalleEquiposervice.getAllDetalleEquipo(
-      detalleEquipoId
-    );
+    const response = await DetalleEquiposervice.getAllDetalleEquipo(detalleEquipoId);
     res.status(200).send(response);
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
@@ -26,4 +24,5 @@ router.get("/detalleEquipo/:id", async function (req, res) {
     res.status(200).send(MessageFail(error.message));
   }
 });
+
 export default router;

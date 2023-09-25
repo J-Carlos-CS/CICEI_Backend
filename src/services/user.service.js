@@ -7,14 +7,7 @@ import { User } from "../models/user.model.js";
 export const UserService = {
   registerUser: async (user) => {
     try {
-      if (
-        user.email &&
-        user.password &&
-        user.lastName &&
-        user.firstName &&
-        user.systemRol &&
-        user.cellPhone
-      ) {
+      if (user.email && user.password && user.lastName && user.firstName && user.rol && user.cellPhone) {
         const password = await bcrypt.hash(user.password, 10);
         user.email = user.email.toLowerCase();
         user.password = password;
@@ -48,6 +41,12 @@ export const UserService = {
     const user = await User.findOne({
       where: { email: email },
       attributes: { include: "password" },
+    });
+    return user;
+  },
+  getTutorUser: async () => {
+    const user = await User.findAll({
+      where: { rol: "Tutor" },
     });
     return user;
   },
