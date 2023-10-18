@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
-import { TutorInvestigador } from "./tutorInvestigador.model.js";
+
 import bcrypt from 'bcrypt'
 export const Request = sequelize.define("request", {
   id: {

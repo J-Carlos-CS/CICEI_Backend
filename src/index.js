@@ -1,7 +1,7 @@
 import { sequelize } from "../database/database.js";
 import app from "./app.js";
 import dotenv from "dotenv";
-import { TutorInvestigador } from "./models/tutorInvestigador.model.js";
+
 
 dotenv.config();
 async function main() {
