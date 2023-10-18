@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
 import { TutorInvestigador } from "./tutorInvestigador.model.js";
-
+import bcrypt from 'bcrypt'
 export const User = sequelize.define("user", {
   id: {
     type: DataTypes.INTEGER,
@@ -15,11 +15,9 @@ export const User = sequelize.define("user", {
   birthDate: DataTypes.DATEONLY,
   picture: DataTypes.STRING,
   resume: DataTypes.TEXT,
-  rol: DataTypes.STRING,
-  career: DataTypes.STRING,
+  systemRolId: DataTypes.INTEGER,//int
   state: DataTypes.BOOLEAN,
   status: DataTypes.BOOLEAN,
-  cellPhone: DataTypes.INTEGER,
 });
 
 User.hasOne(TutorInvestigador, {
@@ -35,3 +33,4 @@ User.hasMany(TutorInvestigador, {
   sourceKey: "id",
 });
 TutorInvestigador.belongsTo(User, { as: "investigador", foreinkey: "investigadorId", targetId: "id" });
+

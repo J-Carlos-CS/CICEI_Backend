@@ -7,7 +7,7 @@ import { User } from "../models/user.model.js";
 export const UserService = {
   registerUser: async (user) => {
     try {
-      if (user.email && user.password && user.lastName && user.firstName && user.rol && user.cellPhone) {
+      if (user.email && user.password && user.lastName && user.firstName && user.systemRol && user.cellPhone) {
         const password = await bcrypt.hash(user.password, 10);
         user.email = user.email.toLowerCase();
         user.password = password;
