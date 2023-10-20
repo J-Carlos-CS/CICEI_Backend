@@ -17,4 +17,12 @@ export const RequestService = {
       }
     },
 
+    getAllRequests: async () => {
+        const requests = await Request.findAll();
+        return requests;
+      },
+    getAllRequests: async () => {
+        const requests = await Request.findAll();
+        return requests;
+      },
   };

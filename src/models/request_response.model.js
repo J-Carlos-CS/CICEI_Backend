@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
 
-export const RequestResponse = sequelize.define("requestResponse", {
+export const RequestResponse = sequelize.define("request_responses", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
