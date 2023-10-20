@@ -1,7 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
-import { TutorInvestigador } from "./tutorInvestigador.model.js";
-import bcrypt from 'bcrypt'
+
 export const RequestResponse = sequelize.define("requestResponse", {
   id: {
     type: DataTypes.INTEGER,
@@ -9,7 +8,7 @@ export const RequestResponse = sequelize.define("requestResponse", {
     autoIncrement: true,
   },
   message: DataTypes.STRING,
-  state: DataTypes.BOOLEAN,
-  requestId: DataTypes.INTEGER,//int
+  approved: DataTypes.BOOLEAN,
+  requestId: DataTypes.INTEGER,
   responseDate: DataTypes.DATE
 });

@@ -1,11 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import multer from "multer";
-import mime from "mime-types";
-import prom from "fs/promises";
-import nodemailer from "nodemailer";
-import path from "path";
 import { MessageFail, MessageSuccess } from "../../messages/messageSuccess.js";
 import { authenticateToken } from "../../auth/auth.js";
 import { UserService } from "../services/user.service.js";

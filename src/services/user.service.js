@@ -1,7 +1,4 @@
-import nodemailer from "nodemailer";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { Op } from "sequelize";
 import { User } from "../models/user.model.js";
 
 export const UserService = {
