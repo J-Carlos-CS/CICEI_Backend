@@ -13,7 +13,7 @@ import Reactivo from "./routes/reactivo.routes.js";
 import Manual from "./routes/manual.routes.js";
 import Equipo from "./routes/equipos.routes.js";
 import DetalleEquipo from "./routes/detalleEquipo.routes.js";
-
+import TutorInvestigador from "./routes/tutorInvestigador.routes.js";
 const app = express();
 const ROUTE_URL = "/laboratorio/api";
 const __filename = fileURLToPath(import.meta.url);
@@ -31,4 +31,5 @@ app.use(ROUTE_URL + "/reactivos", Reactivo);
 app.use(ROUTE_URL + "/manuales", Manual);
 app.use(ROUTE_URL + "/equipos", Equipo);
 app.use(ROUTE_URL + "/detalle", DetalleEquipo);
+app.use(ROUTE_URL + "/tutorinvestigador", TutorInvestigador);
 export default app;

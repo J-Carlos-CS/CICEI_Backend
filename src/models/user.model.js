@@ -22,16 +22,5 @@ export const User = sequelize.define("user", {
   cellPhone: DataTypes.INTEGER,
 });
 
-User.hasOne(TutorInvestigador, {
-  as: "tutor",
-  foreinkey: "tutorId",
-  sourceKey: "id",
-});
-TutorInvestigador.belongsTo(User, { as: "tutor", foreinkey: "tutorId", targetId: "id" });
-
-User.hasMany(TutorInvestigador, {
-  as: "investigador",
-  foreinkey: "investigadorId",
-  sourceKey: "id",
-});
-TutorInvestigador.belongsTo(User, { as: "investigador", foreinkey: "investigadorId", targetId: "id" });
+TutorInvestigador.belongsTo(User, { foreignKey: "tutorId", as: "tutor" });
+TutorInvestigador.belongsTo(User, { foreignKey: "investigadorId", as: "investigador" });
