@@ -2,9 +2,7 @@ import { Categorias } from "../models/categoria.model.js";
 
 export const CategoriaService = {
   getAllCategoria: async () => {
-    const categoria = await Categorias.findAll({
-      where: { estado: true },
-    });
+    const categoria = await Categorias.findAll({});
     return categoria;
   },
   registerCategoria: async (categoria) => {

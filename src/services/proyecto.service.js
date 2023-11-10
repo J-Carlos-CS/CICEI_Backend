@@ -2,9 +2,7 @@ import { Proyectos } from "../models/proyectos.model.js";
 
 export const ProyectoService = {
   getAllProyecto: async () => {
-    const proyecto = await Proyectos.findAll({
-      where: { estado: true },
-    });
+    const proyecto = await Proyectos.findAll({});
     return proyecto;
   },
   registerProyecto: async (proyecto) => {
