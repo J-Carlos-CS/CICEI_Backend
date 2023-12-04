@@ -7,17 +7,7 @@ import { Proyectos } from "../models/proyectos.model.js";
 
 export const EquipoService = {
   registerEquipo: async (equipo) => {
-    const {
-      nombre,
-      categoriaId,
-      proyectoId,
-      cantidad,
-      unidad,
-      estado,
-      marca,
-      modelo,
-      fecha_adquisicion,
-    } = equipo;
+    const { nombre, categoriaId, proyectoId, cantidad, unidad, estado, marca, modelo, fecha_adquisicion } = equipo;
     try {
       let newEquipos = await Equipos.create(
         {
@@ -27,27 +17,20 @@ export const EquipoService = {
           cantidad,
           unidad,
           estado,
+          marca,
+          modelo,
         },
         {
-          fields: [
-            "nombre",
-            "categoriaId",
-            "proyectoId",
-            "cantidad",
-            "unidad",
-            "estado",
-          ],
+          fields: ["nombre", "categoriaId", "proyectoId", "cantidad", "unidad", "estado", "marca", "modelo"],
         }
       );
       if (newEquipos != undefined) {
         let newManual = await Manuales.create(
           {
-            marca,
-            modelo,
             estado,
           },
           {
-            fields: ["marca", "modelo", "estado"],
+            fields: ["estado"],
           }
         );
         if (newManual != undefined) {
@@ -125,6 +108,8 @@ export const EquipoService = {
       equipo.estado = putEquipo.estado;
       equipo.proyectoId = putEquipo.proyectoId;
       equipo.categoriaId = putEquipo.categoriaId;
+      equipo.marca = putEquipo.marca;
+      equipo.modelo = putEquipo.modelo;
       return await equipo.save();
     } catch (error) {
       throw new Error(e.message);

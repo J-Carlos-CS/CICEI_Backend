@@ -11,12 +11,7 @@ export const Manuales = sequelize.define("manuales", {
   nombre: {
     type: DataTypes.STRING,
   },
-  marca: {
-    type: DataTypes.STRING,
-  },
-  modelo: {
-    type: DataTypes.STRING,
-  },
+
   num_manuales: {
     type: DataTypes.INTEGER,
   },

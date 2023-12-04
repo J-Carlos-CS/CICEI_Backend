@@ -59,7 +59,9 @@ router.post("/login", async function (req, res) {
           firstName: userInDB.firstName,
           lastName: userInDB.lastName,
           email: userInDB.email,
-          systemRol: userInDB.systemRol,
+          rol: userInDB.rol,
+          picture: userInDB.picture,
+          career: userInDB.career,
         };
         const token = await jwt.sign(userForToken, process.env.TOKEN_SECRET);
         res.status(200).send(MessageSuccess(token));
