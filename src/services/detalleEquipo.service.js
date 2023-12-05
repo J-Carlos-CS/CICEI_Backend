@@ -15,6 +15,17 @@ export const DetalleEquiposervice = {
         },
         {
           model: Equipos,
+          include: [
+            {
+              model: Categorias,
+            },
+            {
+              model: Proyectos,
+            },
+          ],
+        },
+        {
+          model: Manuales,
         },
       ],
     });
