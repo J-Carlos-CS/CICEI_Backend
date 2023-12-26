@@ -7,11 +7,12 @@ import { Proyectos } from "../models/proyectos.model.js";
 
 export const DetalleEquiposervice = {
   getAllDetalleEquipo: async (id) => {
-    const allEquipos = await Detalle_Equipo.findAll({
+    var allEquipos = await Detalle_Equipo.findAll({
       where: { equipoId: id },
       include: [
         {
           model: Fechas_adquisiciones,
+          limit: 1,
         },
         {
           model: Equipos,
