@@ -40,10 +40,11 @@ export const EquipoService = {
                 {
                   equipoId: newEquipos.id,
                   manualeId: newManual.id,
+                  num_ucb: "UCB_" + newEquipos.id + newManual.id + (i + 1),
                   estado,
                 },
                 {
-                  fields: ["equipoId", "manualeId", "estado"],
+                  fields: ["equipoId", "manualeId", "num_ucb", "estado"],
                 }
               );
               let newFecha = await Fechas_adquisiciones.create(
