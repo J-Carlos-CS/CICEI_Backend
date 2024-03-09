@@ -1,9 +1,14 @@
 import { Manuales } from "../models/manual.model.js";
+import { Equipos } from "../models/equipo.model.js";
 
 export const ManualService = {
   getAllManuales: async () => {
     const manuales = await Manuales.findAll({
-      where: { estado: true },
+      include: [
+        {
+          model: Equipos,
+        },
+      ],
     });
     return manuales;
   },
@@ -23,6 +28,11 @@ export const ManualService = {
   getManualByID: async (id) => {
     const manualInDB = await Manuales.findOne({
       where: { id },
+      include: [
+        {
+          model: Equipos,
+        },
+      ],
     });
     return manualInDB;
   },

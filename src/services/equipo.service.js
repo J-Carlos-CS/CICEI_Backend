@@ -28,9 +28,10 @@ export const EquipoService = {
         let newManual = await Manuales.create(
           {
             estado,
+            equipoId: newEquipos.id,
           },
           {
-            fields: ["estado"],
+            fields: ["estado", "equipoId"],
           }
         );
         if (newManual != undefined) {
@@ -39,7 +40,6 @@ export const EquipoService = {
               let newDetalle_Equipo = await Detalle_Equipo.create(
                 {
                   equipoId: newEquipos.id,
-                  manualeId: newManual.id,
                   num_ucb: "UCB_" + newEquipos.id + newManual.id + (i + 1),
                   estado,
                 },

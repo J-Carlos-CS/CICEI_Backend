@@ -19,13 +19,7 @@ export const ReactivoService = {
   },
   registerReactivo: async (reactivo) => {
     try {
-      if (
-        reactivo.nombre &&
-        reactivo.cantidad &&
-        reactivo.unidades &&
-        reactivo.fecha_vencimiento &&
-        reactivo.marca
-      ) {
+      if (reactivo.nombre && reactivo.cantidad && reactivo.unidades && reactivo.fecha_vencimiento && reactivo.marca) {
         reactivo.estado = true;
         const reactivoInDB = await Reactivos.create(reactivo);
         return reactivoInDB;

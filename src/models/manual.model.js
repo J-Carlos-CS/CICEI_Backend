@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/database.js";
-import { Detalle_Equipo } from "./detalle_equipo.model.js";
 
 export const Manuales = sequelize.define("manuales", {
   id: {
@@ -30,13 +29,4 @@ export const Manuales = sequelize.define("manuales", {
   estado: {
     type: DataTypes.BOOLEAN,
   },
-});
-
-Manuales.hasMany(Detalle_Equipo, {
-  foreinkey: "manualeId",
-  sourceKey: "id",
-});
-Detalle_Equipo.belongsTo(Manuales, {
-  foreinkey: "manualeId",
-  targetId: "id",
 });

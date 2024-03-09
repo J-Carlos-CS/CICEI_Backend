@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/database.js";
 import { Detalle_Equipo } from "./detalle_equipo.model.js";
+import { Manuales } from "./manual.model.js";
 
 export const Equipos = sequelize.define("equipos", {
   id: {
@@ -33,6 +34,11 @@ Equipos.hasMany(Detalle_Equipo, {
   sourceKey: "id",
 });
 Detalle_Equipo.belongsTo(Equipos, {
+  foreinkey: "equiposId",
+  targetId: "id",
+});
+
+Manuales.belongsTo(Equipos, {
   foreinkey: "equiposId",
   targetId: "id",
 });

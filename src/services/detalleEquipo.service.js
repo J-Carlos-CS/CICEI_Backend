@@ -2,7 +2,6 @@ import { Categorias } from "../models/categoria.model.js";
 import { Detalle_Equipo } from "../models/detalle_equipo.model.js";
 import { Equipos } from "../models/equipo.model.js";
 import { Fechas_adquisiciones } from "../models/fechas_adquisiciones.model.js";
-import { Manuales } from "../models/manual.model.js";
 import { Proyectos } from "../models/proyectos.model.js";
 
 export const DetalleEquiposervice = {
@@ -24,9 +23,6 @@ export const DetalleEquiposervice = {
               model: Proyectos,
             },
           ],
-        },
-        {
-          model: Manuales,
         },
       ],
     });
