@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/", async function (req, res) {
   try {
     const response = await UserService.getAllUsers();
-    res.status(200).send(MessageSuccess(response));
+    res.status(200).send(response);
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }
@@ -26,7 +26,7 @@ router.get("/:id", async function (req, res) {
     const response = await UserService.getOneUser(id);
     res.status(200).send(response);
   } catch (e) {
-    res.status(200).send(MessageFail(e.message));
+    res.status(200).send(e.message);
   }
 });
 router.post("/", async function (req, res) {
@@ -34,7 +34,7 @@ router.post("/", async function (req, res) {
     const user = req.body;
     user.email = user.email.toLowerCase();
     const response = await UserService.registerUser(user);
-    res.status(200).send(MessageSuccess(response));
+    res.status(200).send(response);
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }
@@ -64,13 +64,24 @@ router.post("/login", async function (req, res) {
           career: userInDB.career,
         };
         const token = await jwt.sign(userForToken, process.env.TOKEN_SECRET);
-        res.status(200).send(MessageSuccess(token));
+        res.status(200).send(token);
       } else {
         res.status(200).send(MessageFail("Las credenciales son incorrectas."));
       }
     } else {
       res.status(200).send(MessageFail("Las credenciales son incorrectas."));
     }
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+
+router.post("/crearUser", async function (req, res) {
+  try {
+    const user = req.body;
+    user.email = user.email.toLowerCase();
+    const response = await UserService.invitarUsuario(user);
+    res.status(200).send(response);
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }

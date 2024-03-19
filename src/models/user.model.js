@@ -14,10 +14,8 @@ export const User = sequelize.define("user", {
   lastName: DataTypes.STRING,
   birthDate: DataTypes.DATEONLY,
   picture: DataTypes.STRING,
-  resume: DataTypes.TEXT,
   rol: DataTypes.STRING,
   career: DataTypes.STRING,
-  state: DataTypes.BOOLEAN,
   status: DataTypes.BOOLEAN,
   cellPhone: DataTypes.INTEGER,
 });
