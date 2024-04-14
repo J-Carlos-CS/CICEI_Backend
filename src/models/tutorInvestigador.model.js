@@ -9,5 +9,10 @@ export const TutorInvestigador = sequelize.define("tutorInvestigador", {
   },
   estado: {
     type: DataTypes.BOOLEAN,
+  },  CreadoBy:{
+    type: DataTypes.STRING,
+  },
+  ModificadoBy:{
+    type: DataTypes.STRING,
   },
 });

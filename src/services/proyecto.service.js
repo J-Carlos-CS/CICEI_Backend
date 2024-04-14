@@ -34,6 +34,7 @@ export const ProyectoService = {
       }
       proyectoInDB.proyecto = proyecto.proyecto;
       proyectoInDB.estado = proyecto.estado;
+      proyectoInDB.ModificadoBy = proyecto.CreadoBy;
       return await proyectoInDB.save();
     } catch (error) {
       throw new Error(e.message);

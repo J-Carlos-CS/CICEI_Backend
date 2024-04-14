@@ -27,6 +27,12 @@ export const Equipos = sequelize.define("equipos", {
   modelo: {
     type: DataTypes.STRING,
   },
+  CreadoBy: {
+    type: DataTypes.STRING,
+  },
+  ModificadoBy: {
+    type: DataTypes.STRING,
+  },
 });
 
 Equipos.hasMany(Detalle_Equipo, {

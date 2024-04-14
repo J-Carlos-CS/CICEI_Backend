@@ -12,7 +12,6 @@ export const UserService = {
         const password = await bcrypt.hash(user.password, 10);
         user.email = user.email.toLowerCase();
         user.password = password;
-        user.state = true;
         user.status = true;
         const userEmailInDB = await User.findOne({
           where: { status: true, email: user.email },
@@ -89,8 +88,8 @@ export const UserService = {
             const mailOptions = {
               from: "Invitar Usuario :)",
               to: user.email,
-              subject: "Bienvenido a la plataforma de tutores",
-              text: `Hola ${user.firstName} ${user.lastName},bienvenido a la plataforma de tutores. Tu contraseña es: ${password}`,
+              subject: "Bienvenido a la plataforma del Laboratorio del CIEI",
+              html: `Hola <strong>${user.firstName} ${user.lastName}</strong> <br/>Has sido invitado a la plataforma de Reservas del Laboratorio del CICEI. <br/> Tu contraseña es: <strong>${password}</strong>`,
             };
             transporter.sendMail(mailOptions, function (error, info) {
               if (error) {

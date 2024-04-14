@@ -17,6 +17,12 @@ export const Detalle_Equipo = sequelize.define("detalle_equipos", {
   estado: {
     type: DataTypes.BOOLEAN,
   },
+  CreadoBy: {
+    type: DataTypes.STRING,
+  },
+  ModificadoBy: {
+    type: DataTypes.STRING,
+  },
 });
 
 Detalle_Equipo.hasMany(Fechas_adquisiciones, {

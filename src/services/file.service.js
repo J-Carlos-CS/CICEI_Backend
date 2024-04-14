@@ -5,10 +5,10 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const test = path.normalize(__dirname + "/../../database/apikeys.json");
+const KEYFILEPATH = path.normalize(__dirname + "/../../database/apikeys.json");
 
 const auth = new google.auth.GoogleAuth({
-  keyFile: test,
+  keyFile: KEYFILEPATH,
   scopes: ["https://www.googleapis.com/auth/drive"],
 });
 
@@ -39,6 +39,7 @@ export const FileService = {
       media: media,
       fields: "id",
     });
+    console.log(response.data);
     return response;
   },
 };

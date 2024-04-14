@@ -42,4 +42,28 @@ export const DetalleEquiposervice = {
     });
     return equipo;
   },
+  putDetalleEquipo: async (id, putDetalleEquipo) => {
+    try {
+      const equipo = await Detalle_Equipo.findOne({
+        where: { id },
+      });
+      const fecha = await Fechas_adquisiciones.findOne({
+        where: { detalleEquipoId: id },
+      });
+      console.log(equipo);
+      console.log(fecha);
+      equipo.num_ucb = putDetalleEquipo.num_ucb;
+      equipo.observaciones = putDetalleEquipo.observaciones;
+      equipo.estado = putDetalleEquipo.estado;
+      equipo.ModificadoBy = putDetalleEquipo.CreadoBy;
+      fecha.fecha_adquisicion = putDetalleEquipo.fecha_adquisicion;
+      fecha.fecha_preventivo = putDetalleEquipo.fecha_preventivo;
+      fecha.fecha_Correccion = putDetalleEquipo.fecha_Correccion;
+      fecha.ModificadoBy = putDetalleEquipo.CreadoBy;
+      await fecha.save();
+      return await equipo.save();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };

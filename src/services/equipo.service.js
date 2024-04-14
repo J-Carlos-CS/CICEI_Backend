@@ -1,3 +1,4 @@
+import { EquipoUsado } from "../models/EquipoUsado.js";
 import { Categorias } from "../models/categoria.model.js";
 import { Detalle_Equipo } from "../models/detalle_equipo.model.js";
 import { Equipos } from "../models/equipo.model.js";
@@ -7,7 +8,7 @@ import { Proyectos } from "../models/proyectos.model.js";
 
 export const EquipoService = {
   registerEquipo: async (equipo) => {
-    const { nombre, categoriaId, proyectoId, cantidad, unidad, estado, marca, modelo, fecha_adquisicion } = equipo;
+    const { nombre, categoriaId, proyectoId, cantidad, unidad, estado, marca, modelo, fecha_adquisicion, CreadoBy } = equipo;
     try {
       let newEquipos = await Equipos.create(
         {
@@ -19,19 +20,27 @@ export const EquipoService = {
           estado,
           marca,
           modelo,
+          CreadoBy,
         },
         {
-          fields: ["nombre", "categoriaId", "proyectoId", "cantidad", "unidad", "estado", "marca", "modelo"],
+          fields: ["nombre", "categoriaId", "proyectoId", "cantidad", "unidad", "estado", "marca", "modelo", "CreadoBy"],
         }
+      );
+      await EquipoUsado.create(
+        {
+          nombre,
+        },
+        { fields: ["nombre"] }
       );
       if (newEquipos != undefined) {
         let newManual = await Manuales.create(
           {
             estado,
             equipoId: newEquipos.id,
+            CreadoBy,
           },
           {
-            fields: ["estado", "equipoId"],
+            fields: ["estado", "equipoId", "CreadoBy"],
           }
         );
         if (newManual != undefined) {
@@ -42,18 +51,20 @@ export const EquipoService = {
                   equipoId: newEquipos.id,
                   num_ucb: "UCB_" + newEquipos.id + newManual.id + (i + 1),
                   estado,
+                  CreadoBy,
                 },
                 {
-                  fields: ["equipoId", "manualeId", "num_ucb", "estado"],
+                  fields: ["equipoId", "manualeId", "num_ucb", "estado", "CreadoBy"],
                 }
               );
               let newFecha = await Fechas_adquisiciones.create(
                 {
                   detalleEquipoId: newDetalle_Equipo.id,
                   fecha_adquisicion,
+                  CreadoBy,
                 },
                 {
-                  fields: ["detalleEquipoId", "fecha_adquisicion"],
+                  fields: ["detalleEquipoId", "fecha_adquisicion", "CreadoBy"],
                 }
               );
             }
@@ -111,6 +122,7 @@ export const EquipoService = {
       equipo.categoriaId = putEquipo.categoriaId;
       equipo.marca = putEquipo.marca;
       equipo.modelo = putEquipo.modelo;
+      equipo.ModificadoBy = putEquipo.CreadoBy;
       return await equipo.save();
     } catch (error) {
       throw new Error(e.message);

@@ -34,6 +34,7 @@ export const UnidadesService = {
       }
       unidadesInDB.unidades = unidades.unidades;
       unidadesInDB.estado = unidades.estado;
+      unidadesInDB.ModificadoBy = unidades.CreadoBy;
       return await unidadesInDB.save();
     } catch (error) {
       throw new Error(e.message);

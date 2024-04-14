@@ -34,6 +34,7 @@ export const CategoriaService = {
       }
       categoriaInDB.categoria = categoria.categoria;
       categoriaInDB.estado = categoria.estado;
+      categoriaInDB.ModificadoBy = categoria.CreadoBy;
       return await categoriaInDB.save();
     } catch (error) {
       throw new Error(e.message);

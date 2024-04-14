@@ -44,13 +44,14 @@ export const ManualService = {
       if (!manualInDB) {
         throw new Error("Manual no disponible");
       }
-      categoriaInDB.nombre = manual.nombre;
-      categoriaInDB.marca = manual.marca;
-      categoriaInDB.num_manuales = manual.num_manuales;
-      categoriaInDB.tipo = manual.tipo;
-      categoriaInDB.observaciones = manual.observaciones;
-      categoriaInDB.digital = manual.digital;
-      categoriaInDB.link_manual = manual.link_manual;
+      manualInDB.nombre = manual.nombre;
+      manualInDB.marca = manual.marca;
+      manualInDB.num_manuales = manual.num_manuales;
+      manualInDB.tipo = manual.tipo;
+      manualInDB.observaciones = manual.observaciones;
+      manualInDB.digital = manual.digital;
+      manualInDB.link_manual = manual.link_manual;
+      manualInDB.ModificadoBy = manual.CreadoBy;
       return await manualInDB.save();
     } catch (error) {
       throw new Error(e.message);

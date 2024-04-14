@@ -25,4 +25,15 @@ router.get("/detalleEquipo/:id", async function (req, res) {
   }
 });
 
+router.put("/:id", async function (req, res) {
+  try {
+    const detalleEquipoId = req.params.id;
+    const putDetalleEquipo = req.body;
+    console.log(putDetalleEquipo);
+    const response = await DetalleEquiposervice.putDetalleEquipo(detalleEquipoId, putDetalleEquipo);
+    res.status(200).send(MessageSuccess(response));
+  } catch (error) {
+    res.status(200).send(MessageFail(error.message));
+  }
+});
 export default router;

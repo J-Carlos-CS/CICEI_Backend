@@ -20,7 +20,7 @@ router.post("/informe", upload.single("informe"), async function (req, res) {
     let parentID = process.env.USERPARENT;
     let response = await FileService.createAndUploadFiles(fileMetaData, currentId, parentID);
     if (response.status === 200) {
-      res.status(200).send(MessageSuccess(response));
+      res.status(200).send(MessageSuccess(response.data));
     } else {
       res.status(200).send(MessageFail(response.message));
     }

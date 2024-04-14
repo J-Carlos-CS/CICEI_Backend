@@ -51,7 +51,7 @@ router.post("/login", async function (req, res) {
   const user = req.body;
   try {
     const userInDB = await UserService.getOneUserEmail(user.email);
-    if (userInDB && userInDB.state) {
+    if (userInDB && userInDB.status) {
       const match = await bcrypt.compare(user?.password, userInDB?.password);
       if (match) {
         const userForToken = {
@@ -64,7 +64,7 @@ router.post("/login", async function (req, res) {
           career: userInDB.career,
         };
         const token = await jwt.sign(userForToken, process.env.TOKEN_SECRET);
-        res.status(200).send(token);
+        res.status(200).send(MessageSuccess(token));
       } else {
         res.status(200).send(MessageFail("Las credenciales son incorrectas."));
       }
@@ -81,7 +81,7 @@ router.post("/crearUser", async function (req, res) {
     const user = req.body;
     user.email = user.email.toLowerCase();
     const response = await UserService.invitarUsuario(user);
-    res.status(200).send(response);
+    res.status(200).send(MessageSuccess(response));
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }

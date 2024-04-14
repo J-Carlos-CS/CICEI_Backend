@@ -14,6 +14,12 @@ export const Proyectos = sequelize.define("proyectos", {
   estado: {
     type: DataTypes.BOOLEAN,
   },
+  CreadoBy: {
+    type: DataTypes.STRING,
+  },
+  ModificadoBy: {
+    type: DataTypes.STRING,
+  },
 });
 
 Proyectos.hasMany(Reactivos, {
