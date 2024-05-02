@@ -29,8 +29,9 @@ export const EquipoService = {
       await EquipoUsado.create(
         {
           nombre,
+          cantidad: 0,
         },
-        { fields: ["nombre"] }
+        { fields: ["nombre", "cantidad"] }
       );
       if (newEquipos != undefined) {
         let newManual = await Manuales.create(
@@ -141,5 +142,18 @@ export const EquipoService = {
     } catch (error) {
       throw new Error(e.message);
     }
+  },
+  getEquiposDisponibles: async () => {
+    const equiposDisponibles = await Equipos.findAll({
+      attributes: ["id", "nombre", "cantidad"],
+      where: { estado: true },
+    });
+    const equipoUsado = await EquipoUsado.findAll();
+    for (let i = 0; i < equiposDisponibles.length; i++) {
+      if (equiposDisponibles[i].nombre == equipoUsado[i].nombre && equiposDisponibles[i].id == equipoUsado[i].id) {
+        equiposDisponibles[i].cantidad = equiposDisponibles[i].cantidad - equipoUsado[i].cantidad;
+      }
+    }
+    return equiposDisponibles;
   },
 };

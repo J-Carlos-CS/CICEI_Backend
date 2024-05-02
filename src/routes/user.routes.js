@@ -29,6 +29,15 @@ router.get("/:id", async function (req, res) {
     res.status(200).send(e.message);
   }
 });
+router.get("/investigador/all", async function (req, res) {
+  try {
+    const response = await UserService.getInvestigadorUser();
+    console.log(response);
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 router.post("/", async function (req, res) {
   try {
     const user = req.body;
@@ -81,6 +90,16 @@ router.post("/crearUser", async function (req, res) {
     const user = req.body;
     user.email = user.email.toLowerCase();
     const response = await UserService.invitarUsuario(user);
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+router.put("/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    const user = req.body;
+    const response = await UserService.putUser(id, user);
     res.status(200).send(MessageSuccess(response));
   } catch (e) {
     res.status(200).send(MessageFail(e.message));

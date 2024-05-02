@@ -8,7 +8,7 @@ async function main() {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
-    await sequelize.sync({ force: false });
+    // await sequelize.sync({ force: false });
     app.listen(process.env.PORT || 4000);
     console.log("Server on port " + process.env.PORT || 4000);
   } catch (error) {

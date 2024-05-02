@@ -50,5 +50,13 @@ router.delete("/:id", async function (req, res) {
     res.status(200).send(MessageFail(error.message));
   }
 });
-
+router.get("/equipo/disponible", async function (req, res) {
+  try {
+    console.log("entro");
+    const response = await EquipoService.getEquiposDisponibles();
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 export default router;

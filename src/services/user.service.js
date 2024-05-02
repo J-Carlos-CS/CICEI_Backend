@@ -33,9 +33,15 @@ export const UserService = {
   getAllUsers: async () => {
     const users = await User.findAll({
       attributes: { exclude: ["password"] },
-      where: { status: true },
     });
     return users;
+  },
+  getInvestigadorUser: async () => {
+    const user = await User.findAll({
+      where: { rol: "Investigador" },
+    });
+    console.log(user);
+    return user;
   },
   getOneUserEmail: async (email) => {
     const user = await User.findOne({
@@ -106,6 +112,21 @@ export const UserService = {
       } else {
         throw new Error("Información Básica del Usuario incompleta.");
       }
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
+  putUser: async (id, user) => {
+    try {
+      let userInDB = await User.findOne({
+        where: { id },
+      });
+      if (!userInDB) {
+        throw new Error("Usuario no disponible");
+      }
+      userInDB.status = user.status;
+      userInDB.rol = user.rol;
+      return await userInDB.save();
     } catch (e) {
       throw new Error(e.message);
     }

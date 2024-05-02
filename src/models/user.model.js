@@ -1,6 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
 import { TutorInvestigador } from "./tutorInvestigador.model.js";
+import { Guias } from "./guias.model.js";
 
 export const User = sequelize.define("user", {
   id: {
@@ -22,3 +23,6 @@ export const User = sequelize.define("user", {
 
 TutorInvestigador.belongsTo(User, { foreignKey: "tutorId", as: "tutor" });
 TutorInvestigador.belongsTo(User, { foreignKey: "investigadorId", as: "investigador" });
+
+User.hasMany(Guias, { foreinkey: "usuarioId", targetId: "id" });
+Guias.hasMany(User, { foreinkey: "usuarioId", targetId: "id" });

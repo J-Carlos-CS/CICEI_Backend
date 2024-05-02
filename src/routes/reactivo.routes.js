@@ -75,4 +75,13 @@ router.post("/informe", upload.single("file"), async function (req, res) {
     res.status(200).send(MessageFail("Hubo un error en el servidor. " + e.message));
   }
 });
+
+router.get("/reactivo/disponible", async function (req, res) {
+  try {
+    const response = await ReactivoService.getAllReactivodisponible();
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 export default router;

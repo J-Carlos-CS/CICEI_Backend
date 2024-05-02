@@ -129,4 +129,11 @@ export const ReactivoService = {
       return error;
     }
   },
+  getAllReactivodisponible: async () => {
+    const allReactivos = await Reactivos.findAll({
+      where: { estado: true },
+      attributes: ["id", "nombre", "cantidad", "unidades"],
+    });
+    return allReactivos;
+  },
 };
