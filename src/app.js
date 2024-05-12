@@ -17,6 +17,7 @@ import TutorInvestigador from "./routes/tutorInvestigador.routes.js";
 import Unidades from "./routes/unidades.routes.js";
 import Files from "./routes/files.routes.js";
 import Guias from "./routes/guias.routes.js";
+import Solicitud from "./routes/solicitud.routes.js";
 
 const app = express();
 const ROUTE_URL = "/laboratorio/api";
@@ -39,4 +40,5 @@ app.use(ROUTE_URL + "/tutorinvestigador", TutorInvestigador);
 app.use(ROUTE_URL + "/unidades", Unidades);
 app.use(ROUTE_URL + "/file", Files);
 app.use(ROUTE_URL + "/guias", Guias);
+app.use(ROUTE_URL + "/solicitud", Solicitud);
 export default app;
