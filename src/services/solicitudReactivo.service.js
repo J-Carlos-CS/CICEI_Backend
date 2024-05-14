@@ -17,8 +17,6 @@ export const SolicitudReactivoService = {
   },
   getAllSolicitudesReactivo: async (id) => {
     try {
-      console.log("hola1" + id);
-
       const solicitudesReactivo = await SolicitudReactivo.findAll({ where: { solicitudeId: id } });
       return solicitudesReactivo;
     } catch (e) {

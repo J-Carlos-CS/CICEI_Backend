@@ -26,6 +26,28 @@ export const SolicitudEquipoService = {
       throw new Error(e.message);
     }
   },
+  deleteSolicitudEquipo: async (id) => {
+    try {
+      const solicitudesEquipo = await SolicitudEquipo.findAll({ where: { solicitudeId: id } });
+      for (let i = 0; i < solicitudesEquipo.length; i++) {
+        let equipousado = await EquipoUsado.findOne({
+          where: { id: solicitudesEquipo[i].equipoId },
+        });
+        if (!equipousado) {
+          throw new Error("Unidades no disponible");
+        }
+        equipousado.cantidad = equipousado.unidades - solicitudesEquipo[i].cantidad;
+        await equipousado.save();
+      }
+      if (!solicitudesEquipo) {
+        throw new Error("No se encontró la solicitud de equipo.");
+      }
+      await solicitudesEquipo.destroy();
+      return true;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
   getAllSolicitudesEquipo: async (id) => {
     try {
       const solicitudesEquipo = await SolicitudEquipo.findAll({ where: { solicitudeId: id } });

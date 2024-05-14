@@ -37,7 +37,7 @@ router.post("/reactivo", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
-router.get("/:id/:rol", async function (req, res) {
+router.get("/solicitud/:id/:rol", async function (req, res) {
   try {
     const id = req.params.id;
     const rol = req.params.rol;
@@ -92,4 +92,60 @@ router.post("/aprobar/solicitud", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
+router.get("/getAllSolicitudes/:id/:rol", async function (req, res) {
+  try {
+    const id = req.params.id;
+    const rol = req.params.rol;
+    if (rol === "Administrador") {
+      const response = await SolicitudService.getAllSolicitudesApproved();
+      res.status(200).send(MessageSuccess(response));
+    }
+    if (rol === "Investigador") {
+      const response = await SolicitudService.getInvestigadorSolicitudesApproved(id);
+      res.status(200).send(MessageSuccess(response));
+    }
+    if (rol === "Tutor") {
+      const response = await SolicitudService.getTutorSolicitudesApproved(id);
+      res.status(200).send(MessageSuccess(response));
+    }
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+router.post("/recharzarSolicitud", async function (req, res) {
+  try {
+    const solicitud = req.body;
+    if (solicitud.rol === "Tutor") {
+      const response = await SolicitudService.recharzarSolicitud(solicitud);
+      res.status(200).send(MessageSuccess(response));
+    }
+    if (solicitud.rol === "Administrador") {
+      const response = await SolicitudService.recharzarAdministradorSolicitud(solicitud);
+      res.status(200).send(MessageSuccess(response));
+    }
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+router.get("/getAllSolicitudesRecharzadas/:id/:rol", async function (req, res) {
+  try {
+    const id = req.params.id;
+    const rol = req.params.rol;
+    if (rol === "Administrador") {
+      const response = await SolicitudService.getAllSolicitudesRechazadas();
+      res.status(200).send(MessageSuccess(response));
+    }
+    if (rol === "Investigador") {
+      const response = await SolicitudService.getInvestigadorSolicitudesRechazadas(id);
+      res.status(200).send(MessageSuccess(response));
+    }
+    if (rol === "Tutor") {
+      const response = await SolicitudService.getTutorSolicitudesRechazadas(id);
+      res.status(200).send(MessageSuccess(response));
+    }
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+
 export default router;
