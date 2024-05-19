@@ -1,25 +1,30 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
-
-export const SolicitudEquipo = sequelize.define("solicitudEquipo", {
+export const PendientesMaterial = sequelize.define("pendientesmaterial", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  equipoId: {
+  solicitudeId: {
     type: DataTypes.INTEGER,
   },
-  nombre: {
+  tipo: {
     type: DataTypes.STRING,
   },
-  cantidad: {
+  materialId: {
     type: DataTypes.INTEGER,
   },
-  cantidadAprobada: {
-    type: DataTypes.INTEGER,
+  codigo: {
+    type: DataTypes.STRING,
   },
-  CreadoBy: {
+  comentario: {
+    type: DataTypes.STRING,
+  },
+  estado: {
+    type: DataTypes.STRING,
+  },
+  creadoBy: {
     type: DataTypes.STRING,
   },
 });

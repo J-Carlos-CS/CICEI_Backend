@@ -4,17 +4,22 @@ import { Solicitudes } from "../models/solicitud.model.js";
 import { Guias } from "../models/guias.model.js";
 import nodemailer from "nodemailer";
 import { SolicitudEquipoService } from "./solicitudEquipo.service.js";
+import { SolicitudReactivo } from "../models/solicitudreactivo.model.js";
+import { SolicitudEquipo } from "../models/solicitudEquipo.model.js";
+import { EquipoUsado } from "../models/EquipoUsado.js";
+import { PendientesMaterial } from "../models/PendientesMaterial.model.js";
+import { Detalle_Equipo } from "../models/detalle_equipo.model.js";
 
 export const SolicitudService = {
   registerSolicitud: async (solicitud) => {
     try {
-      console.log(solicitud);
       solicitud.estado = true;
       solicitud.aprobadoTutor = false;
       solicitud.aprobadoAdministrador = false;
       const solicitudInDB = await Solicitudes.create(solicitud);
       if (solicitudInDB) {
-        let tutorNombre = await User.findOne({ where: { id: solicitudes.tutorId } });
+        let tutorNombre = await User.findOne({ where: { id: solicitud.tutorId } });
+        console.log(tutorNombre);
         const transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           port: 465,
@@ -376,6 +381,136 @@ export const SolicitudService = {
         newsolicitudes[i].guiaKey = guia == null ? "" : guia.file;
       }
       return newsolicitudes;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
+  entregarSolicitud: async (_solicitud) => {
+    try {
+      const solicitud = await Solicitudes.findOne({ where: { id: _solicitud.id } });
+      if (solicitud) {
+        solicitud.entregadoAdmi = true;
+        solicitud.entregadoIdAdmin = _solicitud.userid;
+        await solicitud.save();
+        const solicitante = await User.findOne({ where: { id: solicitud.solicitanteid } });
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
+          auth: {
+            user: process.env.SMTP_EMAIL,
+            pass: process.env.SMTP_PASSWORD,
+          },
+          tls: { rejectUnauthorized: false },
+        });
+        const mailOptions = {
+          from: "Solicitud de Reserva del Laboratorio del CICEI",
+          to: solicitante.email,
+          subject: `Solicitud de Reserva del Laboratorio del CICEI ha sido Entregada`,
+          html: `Tu solicitud de reserva con numero de reserva ${solicitud.id} en el laboratorio del CICEI ha sido entregada por el Administrador ${_solicitud.creadoBy}. Estas de acuardo con la entrega?.
+          <br/>
+          <h4>Para donfirmar da click al siguiente enlace</h4>
+          <br/>
+          <a href="${process.env.URLFRONT}/solicitud/entregada?solicitud=${solicitud.id}">Confirma la entrega</a>`,
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("Email sent: " + info.response);
+          }
+        });
+        return solicitud;
+      } else {
+        throw new Error("No se encontró la solicitud.");
+      }
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
+  entregarSolicitudInvestigador: async (_solicitud) => {
+    try {
+      console.log(_solicitud);
+      const solicitud = await Solicitudes.findOne({ where: { id: _solicitud.solicitud, entregadoAdmi: true } });
+      solicitud.entregadoInvestigador = true;
+      await solicitud.save();
+      return solicitud;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
+  obtenerListaMateriales: async (id) => {
+    try {
+      const material = [];
+      const ReactivosInDB = await SolicitudReactivo.findAll({ where: { solicitudeId: id } });
+      const EquiposInDB = await SolicitudEquipo.findAll({ where: { solicitudeId: id } });
+      for (let i = 0; i < ReactivosInDB.length; i++) {
+        ReactivosInDB[i].dataValues.tipo = "Reactivo";
+        ReactivosInDB[i].dataValues.codigo = "";
+        material.push(Object.assign({}, ReactivosInDB[i].dataValues));
+      }
+      for (let i = 0; i < EquiposInDB.length; i++) {
+        EquiposInDB[i].dataValues.tipo = "Equipo";
+        EquiposInDB[i].dataValues.codigo = "";
+        for (let j = 0; j < EquiposInDB[i].cantidad; j++) {
+          material.push(Object.assign({}, EquiposInDB[i].dataValues));
+        }
+      }
+      for (let i = 0; i < material.length; i++) {
+        material[i]._id = i + 1;
+        console.log(material[i]);
+      }
+      return material;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
+  devolverMateriales: async (_solicitud) => {
+    try {
+      if (_solicitud.estado == "OK") {
+        if (_solicitud.tipo == "Equipo") {
+          const equipoUsado = await EquipoUsado.findOne({ where: { id: _solicitud.equipoId } });
+          equipoUsado.cantidad = Number(equipoUsado.cantidad) - 1;
+          await equipoUsado.save();
+          return equipoUsado;
+        }
+        if (_solicitud.estado == "Reservado" || _solicitud.estado == "Estropeado") {
+          if (_solicitud.tipo == "Reactivo") {
+            const pendientesInDB = await PendientesMaterial.create(
+              {
+                solicitudeId: _solicitud.solicitudeId,
+                tipo: _solicitud.tipo,
+                materialId: _solicitud.reactivoId,
+                codigo: _solicitud.codigo,
+                comentario: _solicitud.comentario,
+                estado: _solicitud.estado,
+                creadoBy: _solicitud.creadoBy,
+              },
+              { fields: ["solicitudeId", "tipo", "materialId", "codigo", "comentario", "estado", "creadoBy"] }
+            );
+            return pendientesInDB;
+          }
+          if (_solicitud.tipo == "Equipo") {
+            const pendientesInDB = await PendientesMaterial.create(
+              {
+                solicitudeId: _solicitud.solicitudeId,
+                tipo: _solicitud.tipo,
+                materialId: _solicitud.equipoId,
+                codigo: _solicitud.codigo,
+                comentario: _solicitud.comentario,
+                estado: _solicitud.estado,
+                creadoBy: _solicitud.creadoBy,
+              },
+              { fields: ["solicitudeId", "tipo", "materialId", "codigo", "comentario", "estado", "creadoBy"] }
+            );
+            const equipo = await Detalle_Equipo.findOne({ where: { equipoId: _solicitud.equipoId, num_ucb: _solicitud.codigo } });
+            equipo.estado = false;
+            equipo.observaciones = _solicitud.comentario;
+            await equipo.save();
+            return pendientesInDB;
+          }
+        }
+      }
     } catch (e) {
       throw new Error(e.message);
     }

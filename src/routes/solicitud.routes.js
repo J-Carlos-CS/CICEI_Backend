@@ -12,7 +12,6 @@ const upload = multer({ dest: "uploads/" });
 router.post("/", async function (req, res) {
   try {
     const solicitud = req.body;
-    console.log(solicitud);
     const response = await SolicitudService.registerSolicitud(solicitud);
     res.status(200).send(MessageSuccess(response));
   } catch (e) {
@@ -58,7 +57,7 @@ router.get("/solicitud/:id/:rol", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
-router.get("/solicitud/equipos/:id", async function (req, res) {
+router.get("/solicitud-view/equipos/:id", async function (req, res) {
   try {
     const id = req.params.id;
     const response = await SolicitudEquipoService.getAllSolicitudesEquipo(id);
@@ -67,7 +66,7 @@ router.get("/solicitud/equipos/:id", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
-router.get("/solicitud/reactivos/:id", async function (req, res) {
+router.get("/solicitud-view/reactivos/:id", async function (req, res) {
   try {
     console.log("hola" + req.params.id);
     const id = req.params.id;
@@ -147,5 +146,41 @@ router.get("/getAllSolicitudesRecharzadas/:id/:rol", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
-
+router.post("/entregar/solicitud", async function (req, res) {
+  try {
+    const solicitud = req.body;
+    const response = await SolicitudService.entregarSolicitud(solicitud);
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+router.post("/entregar/investigador", async function (req, res) {
+  try {
+    console.log("hola");
+    const solicitud = req.body;
+    const response = await SolicitudService.entregarSolicitudInvestigador(solicitud);
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+router.get("/materiales/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    const response = await SolicitudService.obtenerListaMateriales(id);
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
+router.post("/materialesDevueltos", async function (req, res) {
+  try {
+    const solicitud = req.body;
+    const response = await SolicitudService.devolverMateriales(solicitud);
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 export default router;

@@ -16,6 +16,9 @@ export const SolicitudReactivo = sequelize.define("solicitudReactivo", {
   cantidad: {
     type: DataTypes.INTEGER,
   },
+  cantidadAprobada: {
+    type: DataTypes.INTEGER,
+  },
   unidades: {
     type: DataTypes.STRING,
   },

@@ -33,7 +33,7 @@ export const EquipoService = {
         },
         { fields: ["nombre", "cantidad"] }
       );
-      if (newEquipos != undefined) {
+      if (newEquipos) {
         let newManual = await Manuales.create(
           {
             estado,

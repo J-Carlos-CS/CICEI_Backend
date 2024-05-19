@@ -48,6 +48,15 @@ export const Solicitudes = sequelize.define("solicitudes", {
   comentario: {
     type: DataTypes.STRING,
   },
+  entregadoAdmi: {
+    type: DataTypes.BOOLEAN,
+  },
+  entregadoIdAdmin: {
+    type: DataTypes.INTEGER,
+  },
+  entregadoInvestigador: {
+    type: DataTypes.BOOLEAN,
+  },
   CreadoBy: {
     type: DataTypes.STRING,
   },

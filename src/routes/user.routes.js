@@ -24,9 +24,9 @@ router.get("/:id", async function (req, res) {
   try {
     const id = req.params.id;
     const response = await UserService.getOneUser(id);
-    res.status(200).send(response);
+    res.status(200).send(MessageSuccess(response));
   } catch (e) {
-    res.status(200).send(e.message);
+    res.status(200).send(MessageFail(response));
   }
 });
 router.get("/investigador/all", async function (req, res) {
@@ -105,5 +105,4 @@ router.put("/:id", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
-
 export default router;

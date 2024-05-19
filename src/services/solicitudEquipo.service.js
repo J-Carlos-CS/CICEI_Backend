@@ -8,7 +8,6 @@ import { EquipoUsado } from "../models/EquipoUsado.js";
 export const SolicitudEquipoService = {
   registerSolicitudequipo: async (solicitudEquipo) => {
     try {
-      console.log(solicitudEquipo);
       const solicitudInDB = await SolicitudEquipo.create(
         { equipoId: solicitudEquipo.id, nombre: solicitudEquipo.nombre, cantidad: solicitudEquipo.cantidad, solicitudeId: solicitudEquipo.solicitudId, CreadoBy: solicitudEquipo.CreadoBy },
         { fields: ["equipoId", "nombre", "cantidad", "solicitudeId", "CreadoBy"] }
@@ -19,7 +18,7 @@ export const SolicitudEquipoService = {
       if (!equipousado) {
         throw new Error("Unidades no disponible");
       }
-      equipousado.cantidad = equipousado.unidades + solicitudEquipo.cantidad;
+      equipousado.cantidad = Number(equipousado.cantidad) + Number(solicitudEquipo.cantidad);
       await equipousado.save();
       return solicitudInDB;
     } catch (e) {
@@ -36,13 +35,12 @@ export const SolicitudEquipoService = {
         if (!equipousado) {
           throw new Error("Unidades no disponible");
         }
-        equipousado.cantidad = equipousado.unidades - solicitudesEquipo[i].cantidad;
+        equipousado.cantidad = Number(equipousado.cantidad) - Number(solicitudesEquipo[i].cantidad);
         await equipousado.save();
       }
       if (!solicitudesEquipo) {
         throw new Error("No se encontró la solicitud de equipo.");
       }
-      await solicitudesEquipo.destroy();
       return true;
     } catch (error) {
       throw new Error(error.message);
