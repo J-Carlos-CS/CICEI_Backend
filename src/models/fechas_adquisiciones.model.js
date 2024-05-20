@@ -15,4 +15,10 @@ export const Fechas_adquisiciones = sequelize.define("fechas_adquisiciones", {
   fecha_Correccion: {
     type: DataTypes.DATE,
   },
+  CreadoBy: {
+    type: DataTypes.STRING,
+  },
+  ModificadoBy: {
+    type: DataTypes.STRING,
+  },
 });

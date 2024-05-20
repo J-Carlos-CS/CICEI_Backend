@@ -15,6 +15,12 @@ export const Categorias = sequelize.define("categorias", {
   estado: {
     type: DataTypes.BOOLEAN,
   },
+  CreadoBy: {
+    type: DataTypes.STRING,
+  },
+  ModificadoBy: {
+    type: DataTypes.STRING,
+  },
 });
 
 Categorias.hasMany(Equipos, {

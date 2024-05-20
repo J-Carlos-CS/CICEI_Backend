@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/database.js";
-import { Detalle_Equipo } from "./detalle_equipo.model.js";
 
 export const Manuales = sequelize.define("manuales", {
   id: {
@@ -11,12 +10,7 @@ export const Manuales = sequelize.define("manuales", {
   nombre: {
     type: DataTypes.STRING,
   },
-  marca: {
-    type: DataTypes.STRING,
-  },
-  modelo: {
-    type: DataTypes.STRING,
-  },
+
   num_manuales: {
     type: DataTypes.INTEGER,
   },
@@ -35,13 +29,10 @@ export const Manuales = sequelize.define("manuales", {
   estado: {
     type: DataTypes.BOOLEAN,
   },
-});
-
-Manuales.hasMany(Detalle_Equipo, {
-  foreinkey: "manualeId",
-  sourceKey: "id",
-});
-Detalle_Equipo.belongsTo(Manuales, {
-  foreinkey: "manualeId",
-  targetId: "id",
+  CreadoBy: {
+    type: DataTypes.STRING,
+  },
+  ModificadoBy: {
+    type: DataTypes.STRING,
+  },
 });

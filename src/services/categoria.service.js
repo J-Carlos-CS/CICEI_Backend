@@ -2,9 +2,7 @@ import { Categorias } from "../models/categoria.model.js";
 
 export const CategoriaService = {
   getAllCategoria: async () => {
-    const categoria = await Categorias.findAll({
-      where: { estado: true },
-    });
+    const categoria = await Categorias.findAll({});
     return categoria;
   },
   registerCategoria: async (categoria) => {
@@ -27,7 +25,6 @@ export const CategoriaService = {
     return categoriaInDB;
   },
   putCategoria: async (id, categoria) => {
-    console.log(categoria);
     try {
       let categoriaInDB = await Categorias.findOne({
         where: { id },
@@ -37,6 +34,7 @@ export const CategoriaService = {
       }
       categoriaInDB.categoria = categoria.categoria;
       categoriaInDB.estado = categoria.estado;
+      categoriaInDB.ModificadoBy = categoria.CreadoBy;
       return await categoriaInDB.save();
     } catch (error) {
       throw new Error(e.message);

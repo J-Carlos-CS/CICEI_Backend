@@ -1,13 +1,15 @@
 import express from "express";
 import { MessageFail, MessageSuccess } from "../../messages/messageSuccess.js";
 import { ReactivoService } from "../services/reactivo.service.js";
+import multer from "multer";
 
 const router = express.Router();
+const upload = multer({ dest: "uploads/" });
 
 router.get("/", async function (req, res) {
   try {
     const response = await ReactivoService.getAllReactivo();
-    res.status(200).send(MessageSuccess(response));
+    res.status(200).send(response);
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }
@@ -50,5 +52,36 @@ router.delete("/:id", async function (req, res) {
     res.status(200).send(MessageFail(error.message));
   }
 });
+router.post("/informe", upload.single("file"), async function (req, res) {
+  try {
+    let myfile = req.file;
+    let currentId = req.body.id;
+    let fileMetaData = {
+      name: myfile.originalname,
+      size: myfile.size,
+      tempFilePath: myfile.path,
+      mimetype: myfile.mimetype,
+    };
+    console.log(fileMetaData);
+    console.log(currentId);
+    let parentID = process.env.USERPARENT;
+    let response = await ReactivoService.createAndUploadFiles(fileMetaData, currentId, parentID);
+    if (response.status === 200) {
+      res.status(200).send(MessageSuccess(response.data));
+    } else {
+      res.status(200).send(MessageFail(response.message));
+    }
+  } catch (error) {
+    res.status(200).send(MessageFail("Hubo un error en el servidor. " + e.message));
+  }
+});
 
+router.get("/reactivo/disponible", async function (req, res) {
+  try {
+    const response = await ReactivoService.getAllReactivodisponible();
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 export default router;

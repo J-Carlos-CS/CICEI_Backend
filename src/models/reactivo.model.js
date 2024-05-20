@@ -25,6 +25,9 @@ export const Reactivos = sequelize.define("reactivos", {
   codigo: {
     type: DataTypes.STRING,
   },
+  ficha_tecnica: {
+    type: DataTypes.STRING,
+  },
   observaciones: {
     type: DataTypes.TEXT,
   },
@@ -33,5 +36,11 @@ export const Reactivos = sequelize.define("reactivos", {
   },
   fecha_vencimiento: {
     type: DataTypes.DATE,
+  },
+  CreadoBy: {
+    type: DataTypes.STRING,
+  },
+  ModificadoBy: {
+    type: DataTypes.STRING,
   },
 });

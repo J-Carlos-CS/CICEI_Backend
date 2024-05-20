@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { MessageFail } from "../messages/messageSuccess.js";
 
 export function authenticateToken(req, res, next) {
-  const authHeader = req.headers.authorization.split(" ")[1];
+  const authHeader = req.headers["authorization"];
   const token = authHeader;
   if (token == null) {
     return res.status(200).send(MessageFail("No autorizado"));

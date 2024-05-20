@@ -2,9 +2,7 @@ import { Proyectos } from "../models/proyectos.model.js";
 
 export const ProyectoService = {
   getAllProyecto: async () => {
-    const proyecto = await Proyectos.findAll({
-      where: { estado: true },
-    });
+    const proyecto = await Proyectos.findAll({});
     return proyecto;
   },
   registerProyecto: async (proyecto) => {
@@ -36,6 +34,7 @@ export const ProyectoService = {
       }
       proyectoInDB.proyecto = proyecto.proyecto;
       proyectoInDB.estado = proyecto.estado;
+      proyectoInDB.ModificadoBy = proyecto.CreadoBy;
       return await proyectoInDB.save();
     } catch (error) {
       throw new Error(e.message);
