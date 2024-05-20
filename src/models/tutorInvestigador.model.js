@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
 
-export const TutorInvestigador = sequelize.define("tutorInvestigador", {
+export const TutorInvestigador = sequelize.define("tutorinvestigadors", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -9,10 +9,11 @@ export const TutorInvestigador = sequelize.define("tutorInvestigador", {
   },
   estado: {
     type: DataTypes.BOOLEAN,
-  },  CreadoBy:{
+  },
+  CreadoBy: {
     type: DataTypes.STRING,
   },
-  ModificadoBy:{
+  ModificadoBy: {
     type: DataTypes.STRING,
   },
 });

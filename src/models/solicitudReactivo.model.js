@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
 
-export const SolicitudReactivo = sequelize.define("solicitudReactivo", {
+export const SolicitudReactivo = sequelize.define("solicitudreactivos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,

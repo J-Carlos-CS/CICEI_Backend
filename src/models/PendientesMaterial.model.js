@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
-export const PendientesMaterial = sequelize.define("pendientesmaterial", {
+export const PendientesMaterial = sequelize.define("pendientesmaterials", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
