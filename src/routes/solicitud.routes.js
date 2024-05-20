@@ -177,10 +177,20 @@ router.get("/materiales/:id", async function (req, res) {
 router.post("/materialesDevueltos", async function (req, res) {
   try {
     const solicitud = req.body;
+    console.log(solicitud);
     const response = await SolicitudService.devolverMateriales(solicitud);
     res.status(200).send(MessageSuccess(response));
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }
 });
+router.get("/materialesDevueltos/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    const response = await SolicitudService.obtenerListaMaterialesDevueltos(id);
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+})
 export default router;

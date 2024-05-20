@@ -57,6 +57,9 @@ export const Solicitudes = sequelize.define("solicitudes", {
   entregadoInvestigador: {
     type: DataTypes.BOOLEAN,
   },
+  devuelto: {
+    type: DataTypes.BOOLEAN,
+  },
   CreadoBy: {
     type: DataTypes.STRING,
   },

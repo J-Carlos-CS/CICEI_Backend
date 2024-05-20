@@ -9,6 +9,7 @@ import { SolicitudEquipo } from "../models/solicitudEquipo.model.js";
 import { EquipoUsado } from "../models/EquipoUsado.js";
 import { PendientesMaterial } from "../models/PendientesMaterial.model.js";
 import { Detalle_Equipo } from "../models/detalle_equipo.model.js";
+import { Reactivos } from "../models/reactivo.model.js";
 
 export const SolicitudService = {
   registerSolicitud: async (solicitud) => {
@@ -467,15 +468,29 @@ export const SolicitudService = {
   },
   devolverMateriales: async (_solicitud) => {
     try {
-      if (_solicitud.estado == "OK") {
-        if (_solicitud.tipo == "Equipo") {
-          const equipoUsado = await EquipoUsado.findOne({ where: { id: _solicitud.equipoId } });
-          equipoUsado.cantidad = Number(equipoUsado.cantidad) - 1;
-          await equipoUsado.save();
-          return equipoUsado;
+      const equipo = await Detalle_Equipo.findOne({ where: { num_ucb: _solicitud.codigo } });
+      const reactivo = await Reactivos.findOne({ where: { codigo: _solicitud.codigo } });
+      if (equipo || reactivo) {
+        if (_solicitud.estado === "OK") {
+          if (_solicitud.tipo === "Equipo") {
+            const equipoUsado = await EquipoUsado.findOne({ where: { id: _solicitud.equipoId } });
+            equipoUsado.cantidad = Number(equipoUsado.cantidad) - 1;
+            await equipoUsado.save();
+            const solicitudEquipo = await SolicitudEquipo.findOne({ where: { equipoId: _solicitud.equipoId, solicitudeId: _solicitud.solicitudeId } });
+            solicitudEquipo.cantidadAprobada = Number(solicitudEquipo.cantidadAprobada) + 1;
+            solicitudEquipo.save();
+            return equipoUsado;
+          }
+          if (_solicitud.tipo === "Reactivo") {
+            console.log("reactivo");
+            const solicitudReactivo = await SolicitudReactivo.findOne({ where: { reactivoId: _solicitud.reactivoId, solicitudeId: _solicitud.solicitudeId } });
+            solicitudReactivo.cantidadAprobada = Number(_solicitud.cantidad);
+            solicitudReactivo.save();
+            return solicitudReactivo;
+          }
         }
-        if (_solicitud.estado == "Reservado" || _solicitud.estado == "Estropeado") {
-          if (_solicitud.tipo == "Reactivo") {
+        if (_solicitud.estado === "Reservado" || _solicitud.estado === "Estropeado") {
+          if (_solicitud.tipo === "Reactivo") {
             const pendientesInDB = await PendientesMaterial.create(
               {
                 solicitudeId: _solicitud.solicitudeId,
@@ -484,14 +499,18 @@ export const SolicitudService = {
                 codigo: _solicitud.codigo,
                 comentario: _solicitud.comentario,
                 estado: _solicitud.estado,
-                creadoBy: _solicitud.creadoBy,
+                creadoBy: _solicitud.CreadoBy,
               },
               { fields: ["solicitudeId", "tipo", "materialId", "codigo", "comentario", "estado", "creadoBy"] }
             );
+            const solicitudReactivo = await SolicitudReactivo.findOne({ where: { reactivoId: _solicitud.reactivoId, solicitudeId: _solicitud.solicitudeId } });
+            solicitudReactivo.cantidadAprobada = Number(_solicitud.cantidad);
+            solicitudReactivo.save();
             return pendientesInDB;
           }
-          if (_solicitud.tipo == "Equipo") {
-            const pendientesInDB = await PendientesMaterial.create(
+          if (_solicitud.tipo === "Equipo") {
+            console.log("equipo");
+            let pendientesInDB = await PendientesMaterial.create(
               {
                 solicitudeId: _solicitud.solicitudeId,
                 tipo: _solicitud.tipo,
@@ -499,20 +518,68 @@ export const SolicitudService = {
                 codigo: _solicitud.codigo,
                 comentario: _solicitud.comentario,
                 estado: _solicitud.estado,
-                creadoBy: _solicitud.creadoBy,
+                creadoBy: _solicitud.CreadoBy,
               },
               { fields: ["solicitudeId", "tipo", "materialId", "codigo", "comentario", "estado", "creadoBy"] }
             );
+            console.log(pendientesInDB);
             const equipo = await Detalle_Equipo.findOne({ where: { equipoId: _solicitud.equipoId, num_ucb: _solicitud.codigo } });
+            if (!equipo) {
+              throw new Error("Equipo no disponible");
+            }
             equipo.estado = false;
             equipo.observaciones = _solicitud.comentario;
             await equipo.save();
+            const solicitudEquipo = await SolicitudEquipo.findOne({ where: { equipoId: _solicitud.equipoId, solicitudeId: _solicitud.solicitudeId } });
+            solicitudEquipo.cantidadAprobada = Number(solicitudEquipo.cantidadAprobada) + 1;
+            solicitudEquipo.save();
             return pendientesInDB;
           }
         }
+      } else {
+        throw new Error("El codigo no existe");
       }
     } catch (e) {
       throw new Error(e.message);
+    }
+  },
+  obtenerListaMaterialesDevueltos: async (id) => {
+    let alldevuelto = false;
+    const equipo = await SolicitudEquipo.findAll({ where: { solicitudeId: id } });
+    const reactivo = await SolicitudReactivo.findAll({ where: { solicitudeId: id } });
+    for (let i = 0; i < equipo.length; i++) {
+      if (equipo[i].cantidadAprobada === equipo[i].cantidad) {
+        alldevuelto = true;
+      } else {
+        alldevuelto = false;
+        const solicitudEquipo = await SolicitudEquipo.findOne({ where: { solicitudeId: id } });
+        solicitudEquipo.cantidadAprobada = 0;
+        solicitudEquipo.save();
+        const solicitudReactivo = await SolicitudReactivo.findOne({ where: { solicitudeId: id } });
+        solicitudReactivo.cantidadAprobada = 0;
+        solicitudReactivo.save();
+        throw new Error("No se registraron todos los Materiales, Por favor ingrese todos los materiales Devueltos");
+      }
+    }
+    for (let i = 0; i < reactivo.length; i++) {
+      if (reactivo[i].cantidadAprobada === reactivo[i].cantidad) {
+        alldevuelto = true;
+      } else {
+        alldevuelto = false;
+        const solicitudEquipo = await SolicitudEquipo.findOne({ where: { solicitudeId: id } });
+        solicitudEquipo.cantidadAprobada = 0;
+        solicitudEquipo.save();
+        const solicitudReactivo = await SolicitudReactivo.findOne({ where: { solicitudeId: id } });
+        solicitudReactivo.cantidadAprobada = 0;
+        solicitudReactivo.save();
+        throw new Error("No se registraron todos los Materiales, Por favor ingrese todos los materiales Devueltos");
+      }
+    }
+    if (alldevuelto) {
+      const solicitud = await Solicitudes.findOne({ where: { id } });
+      solicitud.devuelto = true;
+      await solicitud.save();
+      return solicitud;
     }
   },
 };
