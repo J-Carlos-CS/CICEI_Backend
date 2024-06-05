@@ -582,4 +582,43 @@ export const SolicitudService = {
       return solicitud;
     }
   },
+  getAllMaterialesRotosDefectuoso: async () => {
+    try {
+      const materialRoto = await PendientesMaterial.findAll();
+      let material;
+      let usuario;
+      const listaMaterial = [];
+      for (let i = 0; i < materialRoto.length; i++) {
+        if (materialRoto[i].tipo === "Equipo") {
+          const response = await Detalle_Equipo.findOne({ where: { num_ucb: materialRoto[i].codigo } });
+          const equipo = await SolicitudEquipo.findOne({ where: { equipoId: materialRoto[i].materialId } });
+          response.nombre = equipo.nombre;
+          material = response;
+        } else {
+          const response = await Reactivos.findOne({ where: { codigo: materialRoto[i].codigo } });
+          material = response;
+        }
+        const _solicitud = await Solicitudes.findOne({ where: { id: materialRoto[i].solicitudeId } });
+        const solicitante = await User.findOne({ where: { id: _solicitud.solicitanteid } });
+        usuario = solicitante;
+        const _listaMaterial = {
+          id: materialRoto[i].id,
+          solicitante: usuario.firstName + " " + usuario.lastName,
+          material: material.nombre,
+          tipo: materialRoto[i].tipo,
+          codigo: materialRoto[i].codigo,
+          estado: materialRoto[i].estado,
+          codigo: materialRoto[i].codigo,
+          comentario: materialRoto[i].comentario,
+          idSolicitud: materialRoto[i].solicitudeId,
+          fecha: _solicitud.fecha,
+          hora: _solicitud.hora,
+        };
+        listaMaterial.push(Object.assign({}, _listaMaterial));
+      }
+      return listaMaterial;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
 };

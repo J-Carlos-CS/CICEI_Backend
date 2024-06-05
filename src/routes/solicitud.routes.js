@@ -192,5 +192,13 @@ router.get("/materialesDevueltos/:id", async function (req, res) {
   } catch (e) {
     res.status(200).send(MessageFail(e.message));
   }
-})
+});
+router.get("/material/roto", async function (req, res) {
+  try {
+    const response = await SolicitudService.getAllMaterialesRotosDefectuoso();
+    res.status(200).send(MessageSuccess(response));
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 export default router;
