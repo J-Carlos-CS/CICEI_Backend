@@ -4,7 +4,7 @@ import { Solicitudes } from "../models/solicitud.model.js";
 import { Guias } from "../models/guias.model.js";
 import nodemailer from "nodemailer";
 import { SolicitudEquipoService } from "./solicitudEquipo.service.js";
-import { SolicitudReactivo } from "../models/solicitudreactivo.model.js";
+import { SolicitudReactivo } from "../models/solicitudReactivo.model.js";
 import { SolicitudEquipo } from "../models/solicitudEquipo.model.js";
 import { EquipoUsado } from "../models/EquipoUsado.js";
 import { PendientesMaterial } from "../models/PendientesMaterial.model.js";

@@ -1,4 +1,4 @@
-import { SolicitudReactivo } from "../models/solicitudreactivo.model.js";
+import { SolicitudReactivo } from "../models/solicitudReactivo.model.js";
 
 export const SolicitudReactivoService = {
   registerSolicitudReactivo: async (solicitudEquipo) => {

@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../../database/database.js";
 import { SolicitudEquipo } from "./solicitudEquipo.model.js";
-import { SolicitudReactivo } from "./solicitudreactivo.model.js";
+import { SolicitudReactivo } from "./solicitudReactivo.model.js";
 
 export const Solicitudes = sequelize.define("solicitudes", {
   id: {
