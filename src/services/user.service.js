@@ -37,9 +37,7 @@ export const UserService = {
     return users;
   },
   getInvestigadorUser: async () => {
-    const user = await User.findAll({
-      where: { rol: "Investigador" },
-    });
+    const user = await User.findAll({});
     console.log(user);
     return user;
   },
@@ -126,6 +124,9 @@ export const UserService = {
       }
       userInDB.status = user.status;
       userInDB.rol = user.rol;
+      userInDB.cellPhone = user.cellPhone;
+      userInDB.career = user.career;
+      userInDB.birthDate = user.birthDate;
       return await userInDB.save();
     } catch (e) {
       throw new Error(e.message);

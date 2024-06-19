@@ -11,6 +11,9 @@ export const Proyectos = sequelize.define("proyectos", {
   proyecto: {
     type: DataTypes.STRING,
   },
+  tipo: {
+    type: DataTypes.STRING,
+  },
   estado: {
     type: DataTypes.BOOLEAN,
   },

@@ -5,6 +5,12 @@ export const UnidadesService = {
     const unidades = await Unidades.findAll({});
     return unidades;
   },
+  getAllUnidadesfiltro: async (data) => {
+    const unidades = await Unidades.findAll({
+      where: { tipo: data },
+    });
+    return unidades;
+  },
   registerUnidades: async (unidades) => {
     try {
       if (unidades.unidades) {
@@ -34,6 +40,7 @@ export const UnidadesService = {
       }
       unidadesInDB.unidades = unidades.unidades;
       unidadesInDB.estado = unidades.estado;
+      unidadesInDB.tipo = unidades.tipo;
       unidadesInDB.ModificadoBy = unidades.CreadoBy;
       return await unidadesInDB.save();
     } catch (error) {

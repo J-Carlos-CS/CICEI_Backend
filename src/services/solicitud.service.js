@@ -15,7 +15,11 @@ export const SolicitudService = {
   registerSolicitud: async (solicitud) => {
     try {
       solicitud.estado = true;
-      solicitud.aprobadoTutor = false;
+      if (solicitud.tutorId == solicitud.solicitanteid) {
+        solicitud.aprobadoTutor = true;
+      } else {
+        solicitud.aprobadoTutor = false;
+      }
       solicitud.aprobadoAdministrador = false;
       const solicitudInDB = await Solicitudes.create(solicitud);
       if (solicitudInDB) {

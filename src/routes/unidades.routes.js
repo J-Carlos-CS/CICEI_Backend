@@ -13,6 +13,15 @@ router.get("/", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
+router.get("/filtro/:data", async function (req, res) {
+  try {
+    const data = req.params.data;
+    const response = await UnidadesService.getAllUnidadesfiltro(data);
+    res.status(200).send(response);
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 router.get("/:id", async function (req, res) {
   try {
     const unidadesId = req.params.id;

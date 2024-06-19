@@ -11,7 +11,7 @@ export const Reactivos = sequelize.define("reactivos", {
     type: DataTypes.STRING,
   },
   cantidad: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   unidades: {
     type: DataTypes.STRING,

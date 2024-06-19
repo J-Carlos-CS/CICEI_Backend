@@ -5,6 +5,12 @@ export const ProyectoService = {
     const proyecto = await Proyectos.findAll({});
     return proyecto;
   },
+  getAllProyectodata: async (data) => {
+    const proyecto = await Proyectos.findAll({
+      where: { tipo: data },
+    });
+    return proyecto;
+  },
   registerProyecto: async (proyecto) => {
     try {
       if (proyecto.proyecto) {
@@ -34,6 +40,7 @@ export const ProyectoService = {
       }
       proyectoInDB.proyecto = proyecto.proyecto;
       proyectoInDB.estado = proyecto.estado;
+      proyectoInDB.tipo = proyecto.tipo;
       proyectoInDB.ModificadoBy = proyecto.CreadoBy;
       return await proyectoInDB.save();
     } catch (error) {

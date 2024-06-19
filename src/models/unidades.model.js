@@ -10,6 +10,9 @@ export const Unidades = sequelize.define("unidades", {
   unidades: {
     type: DataTypes.STRING,
   },
+  tipo: {
+    type: DataTypes.STRING,
+  },
   estado: {
     type: DataTypes.BOOLEAN,
   },

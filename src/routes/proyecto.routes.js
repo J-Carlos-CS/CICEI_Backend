@@ -12,6 +12,15 @@ router.get("/", async function (req, res) {
     res.status(200).send(MessageFail(e.message));
   }
 });
+router.get("/data/:data", async function (req, res) {
+  try {
+    const data = req.params.data;
+    const response = await ProyectoService.getAllProyectodata(data);
+    res.status(200).send(response);
+  } catch (e) {
+    res.status(200).send(MessageFail(e.message));
+  }
+});
 router.post("/", async function (req, res) {
   try {
     const proyecto = req.body;
